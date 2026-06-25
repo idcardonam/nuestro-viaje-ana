@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parasol QR · Nuestro Viaje</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @page { size: 148mm 210mm; margin: 0; }
+
+    @media print {
+      body { background: white; padding: 0; }
+      .no-print { display: none !important; }
+      .card { box-shadow: none !important; margin: 0 !important; }
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0a1020;
+      font-family: "Outfit", sans-serif;
+      padding: 1.5rem;
+    }
+
+    .card {
+      width: 148mm;
+      min-height: 210mm;
+      background: linear-gradient(180deg, #0f1628 0%, #070b14 100%);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .topbar {
+      height: 4px;
+      background: linear-gradient(90deg, #ff6b6b, #a78bfa, #2dd4bf, #e8c17a);
+    }
+
+    .photos {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-rows: 1fr 1fr;
+      height: 95px;
+      gap: 2px;
+    }
+
+    .photos img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photos .big { grid-row: 1 / 3; object-position: center 20%; }
+    .photos .tr { object-position: center 15%; }
+    .photos .br { object-position: center top; }
+
+    .header {
+      padding: 1rem 1.4rem 0.7rem;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #e8c17a;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .main-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.85rem;
+      font-weight: 400;
+      line-height: 1.1;
+      color: #fff;
+    }
+
+    .main-title em {
+      font-style: italic;
+      background: linear-gradient(135deg, #f472b6, #e8c17a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 0.45rem;
+      line-height: 1.5;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(244, 114, 182, 0.4), transparent);
+      margin: 0 1.4rem;
+    }
+
+    .qr-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem 1.4rem;
+      flex: 1;
+    }
+
+    .scan-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.45);
+      margin-bottom: 0.6rem;
+    }
+
+    .qr-wrap {
+      background: #fff;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 0 50px rgba(244, 114, 182, 0.25), 0 0 80px rgba(45, 212, 191, 0.15);
+    }
+
+    .qr-wrap img {
+      width: 120px;
+      height: 120px;
+      display: block;
+    }
+
+    .instructions {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      margin: 0.8rem 1.4rem 0;
+      padding: 0.75rem 1rem;
+    }
+
+    .instr-title {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #f472b6;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .instr-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 0.4rem;
+    }
+
+    .instr-row:last-child { margin-bottom: 0; }
+
+    .instr-num {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f472b6, #a78bfa);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .instr-txt {
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.4;
+    }
+
+    .route {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      justify-content: center;
+      padding: 0.75rem 1.4rem;
+    }
+
+    .rpill {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 9.5px;
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .footer {
+      padding: 0.6rem 1.4rem 1rem;
+      text-align: center;
+    }
+
+    .footer-msg {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 11px;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.4);
+      line-height: 1.55;
+    }
+
+    .footer-msg strong {
+      color: rgba(244, 114, 182, 0.7);
+      font-weight: 400;
+    }
+
+    .bottombar {
+      height: 4px;
+      background: linear-gradient(90deg, #a78bfa, #f472b6, #e8c17a);
+    }
+
+    .no-print {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: linear-gradient(135deg, #f472b6, #a78bfa);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: "Outfit", sans-serif;
+      box-shadow: 0 8px 30px rgba(244, 114, 182, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="topbar"></div>
+
+    <div class="photos">
+      <img class="big" src="img/couple-pueblo.jpg" alt="">
+      <img class="tr" src="img/couple-terraza.jpg" alt="">
+      <img class="br" src="img/couple-selfie.jpg" alt="">
+    </div>
+
+    <div class="header">
+      <div class="eyebrow">✈ 27 Jun — 3 Jul · 2026</div>
+      <h1 class="main-title">Aquí inicia<br><em>nuestro viaje</em></h1>
+      <p class="subtitle">Ana, escanea esto y empieza la aventura 🤍</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="qr-section">
+      <div class="scan-label">Escanea con tu cámara</div>
+      <div class="qr-wrap">
+        <img
+          src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https://idcardonam.github.io/nuestro-viaje-ana/&color=070b14&bgcolor=ffffff&margin=0&qzone=1"
+          alt="QR Nuestro Viaje"
+          width="120"
+          height="120"
+        >
+      </div>
+    </div>
+
+    <div class="instructions">
+      <div class="instr-title">¿Cómo abrir?</div>
+      <div class="instr-row"><div class="instr-num">1</div><div class="instr-txt">Abre la cámara de tu celular</div></div>
+      <div class="instr-row"><div class="instr-num">2</div><div class="instr-txt">Apunta al código QR</div></div>
+      <div class="instr-row"><div class="instr-num">3</div><div class="instr-txt">Toca el link y empieza el viaje 🎉</div></div>
+    </div>
+
+    <div class="route">
+      <span class="rpill">📍 BGA</span>
+      <span class="rpill">🛣️ Ocaña</span>
+      <span class="rpill">🏡 Curumaní</span>
+      <span class="rpill">🌊 Barranquilla</span>
+      <span class="rpill">🏰 Cartagena</span>
+      <span class="rpill">🏖️ Sta Marta</span>
+    </div>
+
+    <div class="footer">
+      <div class="footer-msg">
+        <strong>Iván David</strong> lo armó con todo el amor del mundo<br>
+        para que cada kilómetro sea una historia que contar siempre ♡
+      </div>
+    </div>
+
+    <div class="bottombar"></div>
+  </div>
+
+  <button class="no-print" onclick="window.print()">🖨️ Imprimir para el parasol</button>
+
+</body>
+</html>
